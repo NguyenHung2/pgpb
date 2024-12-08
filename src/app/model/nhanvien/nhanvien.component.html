@@ -1,0 +1,146 @@
+<div class="container">
+  <h2>Danh Sách Nhân Viên</h2>
+
+  <!-- Hiển thị thông báo -->
+  <div *ngIf="message" class="alert alert-success mt-3">
+    {{ message }}
+  </div>
+
+  <div *ngIf="isFormVisible" class="overlay"></div>
+
+  <!-- Form thêm hoặc sửa nhân viên -->
+  <div *ngIf="selectedNhanVien" class="form-container">
+    <h3>{{ isEditing ? "Sửa" : "Thêm" }} Nhân Viên</h3>
+    <form (ngSubmit)="saveNhanVien()">
+      <div class="form-group">
+        <label for="maNV">Mã Nhân Viên</label>
+        <input
+          type="text"
+          id="maNV"
+          [(ngModel)]="selectedNhanVien.maNV"
+          name="maNV"
+          class="form-control"
+          [readonly]="isEditing"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="hoTen">Họ và Tên</label>
+        <input
+          type="text"
+          id="hoTen"
+          [(ngModel)]="selectedNhanVien.hoTen"
+          name="hoTen"
+          class="form-control"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="chucVu">Chức Vụ</label>
+        <input
+          type="text"
+          id="chucVu"
+          [(ngModel)]="selectedNhanVien.chucVu"
+          name="chucVu"
+          class="form-control"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="soDienThoai">Số Điện Thoại</label>
+        <input
+          type="text"
+          id="soDienThoai"
+          [(ngModel)]="selectedNhanVien.soDienThoai"
+          name="soDienThoai"
+          class="form-control"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="selectedNhanVien.email"
+          name="email"
+          class="form-control"
+          required
+        />
+      </div>
+      <!-- <div class="form-group">
+        <label for="ngayVaoLam">Ngày Vào Làm</label>
+        <input
+          type="date"
+          id="ngayVaoLam"
+          [(ngModel)]="selectedNhanVien.ngayVaoLam"
+          name="ngayVaoLam"
+          class="form-control"
+          required
+        />
+      </div> -->
+      <div class="form-group">
+        <label for="luong">Lương</label>
+        <input
+          type="number"
+          id="luong"
+          [(ngModel)]="selectedNhanVien.luong"
+          name="luong"
+          class="form-control"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">
+        {{ isEditing ? "Cập Nhật" : "Thêm" }}
+      </button>
+      <button type="button" (click)="cancelForm()" class="btn btn-secondary">
+        Hủy
+      </button>
+    </form>
+  </div>
+
+  <!-- Nút thêm nhân viên -->
+  <button (click)="startAdding()" class="btn btn-primary mt-3">
+    Thêm Nhân Viên
+  </button>
+
+  <!-- Bảng danh sách nhân viên -->
+  <div class="table-container">
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>Mã Nhân Viên</th>
+          <th>Họ và Tên</th>
+          <th>Chức Vụ</th>
+          <th>Số Điện Thoại</th>
+          <th>Email</th>
+          <th>Ngày Vào Làm</th>
+          <th>Lương</th>
+          <th>Thao Tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let nv of nhanViens">
+          <td>{{ nv.maNV }}</td>
+          <td>{{ nv.hoTen }}</td>
+          <td>{{ nv.chucVu }}</td>
+          <td>{{ nv.soDienThoai }}</td>
+          <td>{{ nv.email }}</td>
+          <td>{{ nv.ngayVaoLam | date : "dd/MM/yyyy" }}</td>
+          <td>{{ nv.luong | number }}</td>
+          <td>
+            <button (click)="startEditing(nv)" class="btn btn-info btn-sm">
+              Sửa
+            </button>
+            <button
+              (click)="deleteNhanVien(nv.maNV)"
+              class="btn btn-danger btn-sm"
+            >
+              Xóa
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

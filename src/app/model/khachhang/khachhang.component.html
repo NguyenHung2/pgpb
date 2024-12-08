@@ -1,0 +1,122 @@
+<div class="container">
+  <h2>Danh Sách Khách Hàng</h2>
+
+  <!-- Hiển thị thông báo -->
+  <div *ngIf="message" class="alert alert-success mt-3">
+    {{ message }}
+  </div>
+
+  <div *ngIf="isFormVisible" class="overlay"></div>
+
+  <!-- Form thêm hoặc sửa khách hàng, cố định trên cùng -->
+  <div *ngIf="selectedKhachHang" class="form-container">
+    <h3>{{ isEditing ? "Sửa" : "Thêm" }} Khách Hàng</h3>
+    <form (ngSubmit)="saveKhachHang()">
+      <div class="form-group">
+        <label for="maKH">Mã Khách Hàng</label>
+        <input
+          type="text"
+          id="maKH"
+          [(ngModel)]="selectedKhachHang.maKH"
+          name="maKH"
+          class="form-control"
+          [readonly]="isEditing"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="hoTen">Họ và Tên</label>
+        <input
+          type="text"
+          id="hoTen"
+          [(ngModel)]="selectedKhachHang.hoTen"
+          name="hoTen"
+          class="form-control"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="soDienThoai">Số Điện Thoại</label>
+        <input
+          type="text"
+          id="soDienThoai"
+          [(ngModel)]="selectedKhachHang.soDienThoai"
+          name="soDienThoai"
+          class="form-control"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="selectedKhachHang.email"
+          name="email"
+          class="form-control"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="diaChi">Địa Chỉ</label>
+        <input
+          type="text"
+          id="diaChi"
+          [(ngModel)]="selectedKhachHang.diaChi"
+          name="diaChi"
+          class="form-control"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">
+        {{ isEditing ? "Cập Nhật" : "Thêm" }}
+      </button>
+      <button type="button" (click)="cancelForm()" class="btn btn-secondary">
+        Hủy
+      </button>
+    </form>
+  </div>
+
+  <!-- Nút thêm khách hàng -->
+  <button (click)="startAdding()" class="btn btn-primary mt-3">
+    Thêm Khách Hàng
+  </button>
+
+  <!-- Bảng danh sách khách hàng -->
+  <div class="table-container">
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>Mã Khách Hàng</th>
+          <th>Họ và Tên</th>
+          <th>Số Điện Thoại</th>
+          <th>Email</th>
+          <th>Địa Chỉ</th>
+          <th>Ngày Đăng Ký</th>
+          <th>Thao Tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let kh of khachHangs">
+          <td>{{ kh.maKH }}</td>
+          <td>{{ kh.hoTen }}</td>
+          <td>{{ kh.soDienThoai }}</td>
+          <td>{{ kh.email }}</td>
+          <td>{{ kh.diaChi }}</td>
+          <td>{{ kh.ngayDangKy | date : "dd/MM/yyyy" }}</td>
+          <td>
+            <button (click)="startEditing(kh)" class="btn btn-info btn-sm">
+              Sửa
+            </button>
+            <button
+              (click)="deleteKhachHang(kh.maKH)"
+              class="btn btn-danger btn-sm"
+            >
+              Xóa
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
